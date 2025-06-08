@@ -11,6 +11,8 @@ function App() {
   const [vResut, setVResut] = useState(null);
   const [userAnswer, setUserAnswer] = useState('');
   const [score, setScore] = useState(0);
+  const [showCorrect, setShowCorrect] = useState(false);
+  const [showWrong, setShowWrong] = useState(false);
 
   const handleButton1 = () => {
     const random = Math.floor(Math.random() * 9) + 1
@@ -128,19 +130,27 @@ function App() {
 
   const handleButtonResult = () => {
     setShowResult(true);
+    setInputValue('');
+    //setUserAnswer('');
+    setShowResultButton(false); // Optionally, you can remove this line if you want the button to always show
     if (userAnswer === String(vResut)) {
       if (mode === 1 || mode === 2) setScore(prev => prev + 1);
       else if (mode === 3 || mode === 4) setScore(prev => prev + 2);
       else if (mode === 5) setScore(prev => prev + 3);
       else if (mode === 6) setScore(prev => prev + 2);
       else if (mode === 7) setScore(prev => prev + 3);
+      setShowCorrect(true);
+      setTimeout(() => setShowCorrect(false), 1000);
+    } else {
+      setShowWrong(true);
+      setTimeout(() => setShowWrong(false), 1500);
     }
   };
 
   return (
     <div style={{ textAlign: 'center', marginTop: '3rem', position: 'relative' }}>
       <div style={{ position: 'absolute', top: 20, right: 40, fontSize: '1.2rem', fontWeight: 'bold', color: '#1976d2' }}>
-        分數: {score}
+        累積分數: {score}
       </div>
       <h1>
         {v1 === null || v2 === null
@@ -151,8 +161,7 @@ function App() {
               ? `${v1} - ${v2} = ?`
               : `${v1} + ${v2} = ?`}
       </h1>
-      {/* Only show input when a level button is clicked (mode is set) */}
-      {showResultButton && (
+      <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <input
           type="text"
           value={inputValue}
@@ -163,10 +172,18 @@ function App() {
               setUserAnswer(val); // Save to userAnswer for correction check
             }
           }}
+          disabled={!showResultButton || showResult}
           placeholder="請輸入數字"
-          style={{ fontSize: '1.2rem', padding: '0.5rem', marginTop: '1rem' }}
+          style={{ fontSize: '1.2rem', padding: '0.5rem', marginTop: '1rem', marginRight: '1rem', width: '120px' }}
         />
-      )}
+        <button
+          onClick={handleButtonResult}
+          disabled={!showResultButton || !inputValue}
+          style={{ marginTop: '1rem' }}
+        >
+          回答
+        </button>
+      </div>
       <div style={{ marginTop: '2rem' }}>
         <button onClick={handleButton1} style={{ marginRight: '1rem' }}>
           Level 1 - 基礎
@@ -188,13 +205,8 @@ function App() {
         </button>
         <button onClick={handleButton7}>Level 7 - 減法</button>
       </div>
-      <div style={{ marginTop: '2rem' }}>
-        {showResultButton && (
-          <button onClick={handleButtonResult}>顯示答案</button>
-        )}
-      </div>
       {showResult && v1 !== null && v2 !== null && (
-        <div style={{ marginTop: '1.5rem', fontSize: '1.5rem', color: userAnswer !== String(vResut) ? '#d32f2f' : '#1976d2' }}>
+        <div style={{ marginTop: '1.5rem', fontSize: '1.5rem', color: userAnswer === String(vResut) ? '#4caf50' : '#d32f2f' }}>
           {mode === 1 || mode === 2
             ? `${v1} = ${v2} + [${vResut}]`
             : mode === 6 || mode === 7
@@ -202,6 +214,18 @@ function App() {
               : `${v1} + ${v2} = [${vResut}]`}
         </div>
       )}
+      <div style={{ position: 'absolute', top: 60, right: 40, zIndex: 1000 }}>
+        {showCorrect && (
+          <div style={{ background: '#4caf50', color: 'white', padding: '1rem 2rem', borderRadius: '8px', fontSize: '1.3rem', fontWeight: 'bold', boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
+            答對了!!
+          </div>
+        )}
+        {showWrong && (
+          <div style={{ background: '#d32f2f', color: 'white', padding: '1rem 2rem', borderRadius: '8px', fontSize: '1.3rem', fontWeight: 'bold', boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
+            答錯了，再試一次！
+          </div>
+        )}
+      </div>
     </div>
   )
 }
