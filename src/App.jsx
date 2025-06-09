@@ -148,13 +148,14 @@ function App() {
   };
 
   return (
+    
     <div style={{ textAlign: 'center', marginTop: '3rem', position: 'relative' }}>
-      <div style={{ position: 'absolute', top: 20, right: 40, fontSize: '1.2rem', fontWeight: 'bold', color: '#1976d2' }}>
+      <div style={{ position: 'center', fontSize: '1.2rem', fontWeight: 'bold', color: '#1976d2' }}>
         累積分數: {score}
       </div>
-      <h1>
+      <h1>        
         {v1 === null || v2 === null
-          ? 'Hello World'
+          ? '數學大挑戰'
           : mode === 1 || mode === 2
             ? `${v1} = ${v2} + ?`
             : mode === 6 || mode === 7
