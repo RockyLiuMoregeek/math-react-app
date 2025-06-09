@@ -218,12 +218,12 @@ function App() {
       <div style={{ position: 'absolute', top: 60, right: 40, zIndex: 1000 }}>
         {showCorrect && (
           <div style={{ background: '#4caf50', color: 'white', padding: '1rem 2rem', borderRadius: '8px', fontSize: '1.3rem', fontWeight: 'bold', boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
-            答對了!!
+            答對了!!好棒!
           </div>
         )}
         {showWrong && (
-          <div style={{ background: '#d32f2f', color: 'white', padding: '1rem 2rem', borderRadius: '8px', fontSize: '1.3rem', fontWeight: 'bold', boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
-            答錯了，再試一次！
+          <div style={{ background: '#D9B300', color: 'white', padding: '1rem 2rem', borderRadius: '8px', fontSize: '1.3rem', fontWeight: 'bold', boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
+            再試看看喔！
           </div>
         )}
       </div>
