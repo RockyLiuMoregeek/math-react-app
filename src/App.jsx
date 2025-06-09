@@ -13,6 +13,9 @@ function App() {
   const [score, setScore] = useState(0);
   const [showCorrect, setShowCorrect] = useState(false);
   const [showWrong, setShowWrong] = useState(false);
+  const [nextEnabled, setNextEnabled] = useState(false); // Track if next question button should be enabled
+  // Track which level button is active
+  const [activeLevel, setActiveLevel] = useState(null);
 
   const handleButton1 = () => {
     const random = Math.floor(Math.random() * 9) + 1
@@ -24,6 +27,7 @@ function App() {
     setVResut(10 - random);
     setInputValue('');
     setUserAnswer('');
+    setActiveLevel(1);
   }
 
   const handleButton2 = () => {
@@ -37,6 +41,7 @@ function App() {
     setVResut(v1Random - v2Random);
     setInputValue('');
     setUserAnswer('');
+    setActiveLevel(2);
   }
 
   const handleButton3 = () => {
@@ -56,6 +61,7 @@ function App() {
     setVResut(v1Val + s3);
     setInputValue('');
     setUserAnswer('');
+    setActiveLevel(3);
   }
 
   const handleButton4 = () => {
@@ -73,6 +79,7 @@ function App() {
     setVResut(v1Random + v2Random);
     setInputValue('');
     setUserAnswer('');
+    setActiveLevel(4);
   }
 
   const handleButton5 = () => {
@@ -90,6 +97,7 @@ function App() {
     setVResut(v1Random + v2Random);
     setInputValue('');
     setUserAnswer('');
+    setActiveLevel(5);
   }
 
   const handleButton6 = () => {
@@ -109,6 +117,7 @@ function App() {
     setVResut(v1Val - s3);
     setInputValue('');
     setUserAnswer('');
+    setActiveLevel(6);
   };
 
   const handleButton7 = () => {
@@ -126,6 +135,7 @@ function App() {
     setVResut(v1Random - v2Random);
     setInputValue('');
     setUserAnswer('');
+    setActiveLevel(7);
   };
 
   const handleButtonResult = () => {
@@ -133,6 +143,7 @@ function App() {
     setInputValue('');
     //setUserAnswer('');
     setShowResultButton(false); // Optionally, you can remove this line if you want the button to always show
+    setNextEnabled(true); // Enable next question button
     if (userAnswer === String(vResut)) {
       if (mode === 1 || mode === 2) setScore(prev => prev + 1);
       else if (mode === 3 || mode === 4) setScore(prev => prev + 2);
@@ -145,6 +156,18 @@ function App() {
       setShowWrong(true);
       setTimeout(() => setShowWrong(false), 1500);
     }
+  };
+
+  // Next question handler: triggers the current active level's handler
+  const handleNextQuestion = () => {
+    if (activeLevel === 1) handleButton1();
+    else if (activeLevel === 2) handleButton2();
+    else if (activeLevel === 3) handleButton3();
+    else if (activeLevel === 4) handleButton4();
+    else if (activeLevel === 5) handleButton5();
+    else if (activeLevel === 6) handleButton6();
+    else if (activeLevel === 7) handleButton7();
+    setNextEnabled(false);
   };
 
   return (
@@ -180,31 +203,95 @@ function App() {
         <button
           onClick={handleButtonResult}
           disabled={!showResultButton || !inputValue}
-          style={{ marginTop: '1rem' }}
+          style={{ marginTop: '1rem', marginRight: '1rem' }}
         >
           回答
         </button>
+        <button
+          onClick={handleNextQuestion}
+          disabled={!nextEnabled}
+          style={{ marginTop: '1rem' }}
+        >
+          下一題
+        </button>
       </div>
       <div style={{ marginTop: '2rem' }}>
-        <button onClick={handleButton1} style={{ marginRight: '1rem' }}>
+        <button
+          onClick={handleButton1}
+          style={{
+            marginRight: '1rem',
+            background: activeLevel === 1 ? '#1976d2' : '',
+            color: activeLevel === 1 ? 'white' : '',
+            border: activeLevel === 1 ? '2px solid #1976d2' : ''
+          }}
+        >
           Level 1 - 基礎
         </button>
-        <button onClick={handleButton2} style={{ marginRight: '1rem' }}>
+        <button
+          onClick={handleButton2}
+          style={{
+            marginRight: '1rem',
+            background: activeLevel === 2 ? '#1976d2' : '',
+            color: activeLevel === 2 ? 'white' : '',
+            border: activeLevel === 2 ? '2px solid #1976d2' : ''
+          }}
+        >
           Level 2 - 基礎
         </button>
-        <button onClick={handleButton3} style={{ marginRight: '1rem' }}>
+        <button
+          onClick={handleButton3}
+          style={{
+            marginRight: '1rem',
+            background: activeLevel === 3 ? '#1976d2' : '',
+            color: activeLevel === 3 ? 'white' : '',
+            border: activeLevel === 3 ? '2px solid #1976d2' : ''
+          }}
+        >
           Level 3 - 加法
         </button>
-        <button onClick={handleButton4} style={{ marginRight: '1rem' }}>
+        <button
+          onClick={handleButton4}
+          style={{
+            marginRight: '1rem',
+            background: activeLevel === 4 ? '#1976d2' : '',
+            color: activeLevel === 4 ? 'white' : '',
+            border: activeLevel === 4 ? '2px solid #1976d2' : ''
+          }}
+        >
           Level 4 - 加法
         </button>
-        <button onClick={handleButton5} style={{ marginRight: '1rem' }}>
+        <button
+          onClick={handleButton5}
+          style={{
+            marginRight: '1rem',
+            background: activeLevel === 5 ? '#1976d2' : '',
+            color: activeLevel === 5 ? 'white' : '',
+            border: activeLevel === 5 ? '2px solid #1976d2' : ''
+          }}
+        >
           Level 5 - 加法
         </button>
-        <button onClick={handleButton6} style={{ marginRight: '1rem' }}>
+        <button
+          onClick={handleButton6}
+          style={{
+            marginRight: '1rem',
+            background: activeLevel === 6 ? '#1976d2' : '',
+            color: activeLevel === 6 ? 'white' : '',
+            border: activeLevel === 6 ? '2px solid #1976d2' : ''
+          }}
+        >
           Level 6 - 減法
         </button>
-        <button onClick={handleButton7}>Level 7 - 減法</button>
+        <button
+          onClick={handleButton7}
+          style={{
+            background: activeLevel === 7 ? '#1976d2' : '',
+            color: activeLevel === 7 ? 'white' : '',
+            border: activeLevel === 7 ? '2px solid #1976d2' : ''
+          }}
+        >
+          Level 7 - 減法
+        </button>
       </div>
       {showResult && v1 !== null && v2 !== null && (
         <div style={{ marginTop: '1.5rem', fontSize: '1.5rem', color: userAnswer === String(vResut) ? '#4caf50' : '#d32f2f' }}>
